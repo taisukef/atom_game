@@ -689,6 +689,15 @@
             "components": {
                 "C": 8
             }
-        }
+        },
+        {
+            "name": "二酸化ケイ素",
+            "formula": "SiO2",
+            "point": 12,
+            "components": {
+                "Si": 1,
+                "O": 2
+            }
+        },
     ]
 }
