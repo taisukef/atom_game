@@ -49,7 +49,8 @@ document.getElementById('replaceCard').addEventListener('click', () => {
             // 古いカードを新しいカードで置き換える
             cardToReplace.parentNode.replaceChild(newCardDiv, cardToReplace);
 
-            // 古いカードの選択状態を解除し、選択データを更新
+            // 選択状態を解除
+            cardToReplace.classList.remove('selected');
             const oldElementSymbol = cardToReplace.querySelector('img').alt.split(' ')[1];
             if (selectedElements[oldElementSymbol]) {
                 selectedElements[oldElementSymbol]--;
@@ -62,6 +63,7 @@ document.getElementById('replaceCard').addEventListener('click', () => {
         alert('交換するカードを選択してください。');
     }
 });
+
 
 
 function drawRandomElements(elements, numCards) {
