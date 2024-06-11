@@ -31,27 +31,39 @@ let totalPoints = 0; // ポイントの合計を保持する変数
 document.getElementById('searchButton').addEventListener('click', async () => {
     const foundMaterials = await findMaterials(selectedElements);
     const resultDiv = document.getElementById('results');
-    const pointsDiv = document.getElementById('points'); // ポイント表示用の要素
+    const pointsDiv = document.getElementById('points');
     resultDiv.innerHTML = '';
 
-    totalPoints = 0; // 新しい検索ごとにポイントをリセット
+    totalPoints = 0;
 
-    // 選択されているカードの画像を、それぞれの元素に対応する新しい画像に置き換えます。
-    const selectedCards = document.querySelectorAll('.selected img');
+    const selectedCards = document.querySelectorAll('.selected');
     selectedCards.forEach(card => {
-        card.src = `../image/${elementToNumber[card.alt.split(' ')[1]]}.png`; // 元素記号から番号に変換し、画像パスに変更
-        card.parentNode.classList.remove('selected'); // カードの選択状態を解除
+        const oldElement = card.querySelector('img').alt.split(' ')[1];
+        const newElement = drawRandomElements(elements, 1)[0]; // 新しい元素をランダムに選択
+        card.querySelector('img').src = `../image/${elementToNumber[newElement]}.png`;
+        card.querySelector('img').alt = `Element ${newElement}`;
+
+        // 選択状態のリセット
+        card.classList.remove('selected');
+
+        // 選択されていた元素を更新
+        if (selectedElements[oldElement] && selectedElements[oldElement] > 0) {
+            selectedElements[oldElement]--;
+            if (selectedElements[oldElement] === 0) {
+                delete selectedElements[oldElement];
+            }
+        }
+        selectedElements[newElement] = (selectedElements[newElement] || 0) + 1;
     });
 
-    // 選択状態のリセット
-    selectedElements = {};
+    selectedElements = {}; // 全ての選択状態をリセット
 
     if (foundMaterials.length > 0) {
         foundMaterials.forEach(material => {
             resultDiv.innerHTML += `<p>${material.name} (${material.formula}) - ${material.point} points</p>`;
-            totalPoints += material.point; // 各物質のポイントを合計に追加
+            totalPoints += material.point;
         });
-        pointsDiv.textContent = `ポイント： ${totalPoints}`; // ポイントを表示更新
+        pointsDiv.textContent = `ポイント： ${totalPoints}`;
     } else {
         resultDiv.innerHTML = '<p>該当する物質が見つかりませんでした。</p>';
     }
