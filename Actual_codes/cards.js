@@ -1,10 +1,3 @@
-// 元素名から元素番号へのマッピング
-const elementToNumber = {
-    "H": 1, "He": 2, "Li": 3, "Be": 4, "B": 5, "C": 6, "N": 7, "O": 8, "F": 9, "Ne": 10,
-    "Na": 11, "Mg": 12, "Al": 13, "Si": 14, "P": 15, "S": 16, "Cl": 17, "Ar": 18, "K": 19, "Ca": 20,
-    "Fe": 26, "Cu": 29, "Zn": 30, "I": 53
-};
-
 const elements = [
     ...Array(15).fill('H'), ...Array(30).fill('C'), ...Array(25).fill('O'),
     'He', 'Li', 'Be', 'B', 'N', 'F', 'Ne', 'Na', 'Mg', 'Al', 'Si', 'P', 'S', 'Cl', 'Ar', 'K', 'Ca',
@@ -18,6 +11,56 @@ document.getElementById('drawCards').addEventListener('click', () => {
     selectedElements = {}; // 選択されている元素をリセット
     currentHand = drawRandomElements(elements, 8);
     displayHand(currentHand);
+});
+
+document.getElementById('replaceCard').addEventListener('click', () => {
+    const selectedCards = document.querySelectorAll('.selected');
+    if (selectedCards.length > 0) {
+        selectedCards.forEach(cardToReplace => {
+            // 新しいカードを一枚引く
+            const newCardElement = drawRandomElements(elements, 1)[0];
+            const newCardDiv = document.createElement('div');
+            const newImg = document.createElement('img');
+            newImg.src = `../image/${elementToNumber[newCardElement]}.png`;
+            newImg.alt = `Element ${newCardElement}`;
+            newImg.style.width = '60px';
+
+            newCardDiv.appendChild(newImg);
+            newCardDiv.style.margin = '5px';
+            newCardDiv.style.display = 'inline-block';
+            newCardDiv.style.padding = '10px';
+            newCardDiv.style.border = '1px solid black';
+            newCardDiv.className = 'card';
+
+            newCardDiv.addEventListener('click', function() {
+                this.classList.toggle('selected');
+                if (this.classList.contains('selected')) {
+                    selectedElements[newCardElement] = (selectedElements[newCardElement] || 0) + 1;
+                } else {
+                    if (selectedElements[newCardElement]) {
+                        selectedElements[newCardElement]--;
+                        if (selectedElements[newCardElement] === 0) {
+                            delete selectedElements[newCardElement];
+                        }
+                    }
+                }
+            });
+
+            // 古いカードを新しいカードで置き換える
+            cardToReplace.parentNode.replaceChild(newCardDiv, cardToReplace);
+
+            // 古いカードの選択状態を解除し、選択データを更新
+            const oldElementSymbol = cardToReplace.querySelector('img').alt.split(' ')[1];
+            if (selectedElements[oldElementSymbol]) {
+                selectedElements[oldElementSymbol]--;
+                if (selectedElements[oldElementSymbol] === 0) {
+                    delete selectedElements[oldElementSymbol];
+                }
+            }
+        });
+    } else {
+        alert('交換するカードを選択してください。');
+    }
 });
 
 
