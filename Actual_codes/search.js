@@ -25,14 +25,33 @@ async function findMaterials(components) {
     });
 }
 
+let totalPoints = 0; // ポイントの合計を保持する変数
+
+
 document.getElementById('searchButton').addEventListener('click', async () => {
     const foundMaterials = await findMaterials(selectedElements);
     const resultDiv = document.getElementById('results');
+    const pointsDiv = document.getElementById('points'); // ポイント表示用の要素
     resultDiv.innerHTML = '';
+
+    totalPoints = 0; // 新しい検索ごとにポイントをリセット
+
+    // 選択されているカードの画像を、それぞれの元素に対応する新しい画像に置き換えます。
+    const selectedCards = document.querySelectorAll('.selected img');
+    selectedCards.forEach(card => {
+        card.src = `../image/${elementToNumber[card.alt.split(' ')[1]]}.png`; // 元素記号から番号に変換し、画像パスに変更
+        card.parentNode.classList.remove('selected'); // カードの選択状態を解除
+    });
+
+    // 選択状態のリセット
+    selectedElements = {};
+
     if (foundMaterials.length > 0) {
         foundMaterials.forEach(material => {
-            resultDiv.innerHTML += `<p>${material.name} (${material.formula})</p>`;
+            resultDiv.innerHTML += `<p>${material.name} (${material.formula}) - ${material.point} points</p>`;
+            totalPoints += material.point; // 各物質のポイントを合計に追加
         });
+        pointsDiv.textContent = `ポイント： ${totalPoints}`; // ポイントを表示更新
     } else {
         resultDiv.innerHTML = '<p>該当する物質が見つかりませんでした。</p>';
     }
