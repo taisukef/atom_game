@@ -60,7 +60,9 @@ function disablePlayerCards(disable) {
 function updatePoints(compound, pointsDiv) {
     aiPoints += compound.point;
     pointsDiv.textContent = `AIポイント: ${aiPoints}`;
+    checkWinCondition(); // 勝利条件を確認
 }
+
 
 function replaceUsedCards(compound, hand, isAI = false) {
     for (let element in compound.components) {
