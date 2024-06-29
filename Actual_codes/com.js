@@ -167,6 +167,7 @@ document.getElementById('exchangeButton').addEventListener('click', () => {
     });
     selectedElements = {}; // 選択状態をリセット
     displayHand(playerHand, 'hand'); // 手札を再表示
+    aiTurn()
 });
 
 function initializeHands() {
@@ -178,4 +179,5 @@ function initializeHands() {
 
 document.getElementById('drawCards').addEventListener('click', () => {
     initializeHands();
+    aiTurn()
 });
