@@ -47,28 +47,19 @@ let totalPoints = 0; // ポイントの合計を保持する変数
 document.getElementById('searchButton').addEventListener('click', async () => {
     const foundMaterials = await findMaterials(selectedElements);
     const resultDiv = document.getElementById('results');
-    const pointsDiv = document.getElementById('points'); // ポイント表示用の要素
+    const pointsDiv = document.getElementById('points');
     resultDiv.innerHTML = '';
-
-    // 選択されているカードの画像を、それぞれの元素に対応する新しい画像に置き換えます。
-    const selectedCards = document.querySelectorAll('.selected img');
-    selectedCards.forEach(card => {
-        card.src = `../image/${numberToElement[Math.trunc(Math.random()*23)+1]}.png`; // 元素記号から番号に変換し、画像パスに変更
-        card.parentNode.classList.remove('selected'); // カードの選択状態を解除
-    });
-
-    // 選択状態のリセット
-    selectedElements = {};
 
     if (foundMaterials.length > 0) {
         foundMaterials.forEach(material => {
             resultDiv.innerHTML += `<p>${material.name} (${material.formula}) - ${material.point} points</p>`;
-            totalPoints += material.point; // 各物質のポイントを合計に追加
+            totalPoints += material.point;
+            replaceUsedCards(material, playerHand); // replaceUsedCards関数で内部データと表示を更新
         });
-        pointsDiv.textContent = `ポイント： ${totalPoints}`; // ポイントを表示更新
+        pointsDiv.textContent = `ポイント： ${totalPoints}`;
     } else {
         resultDiv.innerHTML = '<p>該当する物質が見つかりませんでした。</p>';
     }
 
-    aiTurn();
+    aiTurn(); // AIのターンを開始
 });
