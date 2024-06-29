@@ -34,5 +34,16 @@
     <script src="../Actual_codes/cards.js"></script>
     <script src="../Actual_codes/search.js"></script>
     <script src="../Actual_codes/com.js"></script>
+
+    <script>
+        function checkWinCondition() {
+            if (playerPoints > 100 || aiPoints > 100) {
+                alert(`${playerPoints > 100 ? "プレイヤー" : "AI"}の勝利です！`);
+                document.getElementById('drawCards').style.display = 'block'; // 再スタートボタンを表示
+                disableButtons(true);
+                disablePlayerCards(true);
+            }
+        }        
+    </script>
 </body>
 </html>
