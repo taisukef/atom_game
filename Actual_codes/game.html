@@ -39,11 +39,23 @@
         function checkWinCondition() {
             if (playerPoints > 100 || aiPoints > 100) {
                 alert(`${playerPoints > 100 ? "プレイヤー" : "AI"}の勝利です！`);
-                document.getElementById('drawCards').style.display = 'block'; // 再スタートボタンを表示
-                disableButtons(true);
-                disablePlayerCards(true);
+                resetGame();
             }
-        }        
+        }
+        
+        function resetGame() {
+            playerPoints = 0;
+            aiPoints = 0;
+            document.getElementById('points').textContent = 'ポイント: 0';
+            document.getElementById('aiPoints').textContent = 'AIポイント: 0';
+            document.getElementById('hand').innerHTML = '';
+            document.getElementById('aiHand').innerHTML = '';
+            document.getElementById('results').innerHTML = '';
+            document.getElementById('drawCards').style.display = 'block'; // 再スタートボタンを表示
+            disableButtons(true);
+            disablePlayerCards(true);
+}
+
     </script>
 </body>
 </html>
