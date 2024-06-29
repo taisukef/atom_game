@@ -181,5 +181,4 @@ function initializeHands() {
 
 document.getElementById('drawCards').addEventListener('click', () => {
     initializeHands();
-    aiTurn()
 });
