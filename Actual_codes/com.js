@@ -1,8 +1,11 @@
+aiHand = [];
+playerHand = [];
 let playerPoints = 0;
 
 async function aiTurn() {
     clearAISelection();
     disableButtons(true);
+    disablePlayerCards(true);
     const possibleCompounds = await listCreatableMaterials(aiHand);
     const aiPointsDiv = document.getElementById('aiPoints');
     const resultDiv = document.getElementById('results');
@@ -23,7 +26,7 @@ async function aiTurn() {
         await new Promise(resolve => setTimeout(resolve, 1500));
         resultDiv.innerHTML = `<p>AIが生成: ${compound.name} (${compound.formula}) - ${compound.point} ポイント</p>`;
         updatePoints(compound, aiPointsDiv);
-        replaceUsedCards(compound, aiHand);
+        replaceUsedCards(compound, aiHand, true);
     } else {
         const elementToExchange = decideElementsToExchange(aiHand);
         if (elementToExchange) {
@@ -38,6 +41,8 @@ async function aiTurn() {
         }
     }
     disableButtons(false);
+    disablePlayerCards(false);
+    console.log('現在のプレイヤーの手札:', playerHand);
 }
 
 function disableButtons(disable) {
@@ -45,12 +50,19 @@ function disableButtons(disable) {
     document.getElementById('searchButton').disabled = disable;
 }
 
+function disablePlayerCards(disable) {
+    const playerCards = document.querySelectorAll('#hand .card');
+    playerCards.forEach(card => {
+        card.style.pointerEvents = disable ? 'none' : 'auto';
+    });
+}
+
 function updatePoints(compound, pointsDiv) {
     aiPoints += compound.point;
     pointsDiv.textContent = `AIポイント: ${aiPoints}`;
 }
 
-function replaceUsedCards(compound, hand) {
+function replaceUsedCards(compound, hand, isAI = false) {
     for (let element in compound.components) {
         for (let i = 0; i < compound.components[element]; i++) {
             const index = hand.indexOf(element);
@@ -59,8 +71,12 @@ function replaceUsedCards(compound, hand) {
             }
         }
     }
-    displayHand(hand, 'aiHand');
+    if (!isAI) {
+        selectedElements = {};
+    }
+    displayHand(hand, isAI ? 'aiHand' : 'hand');
 }
+
 
 async function listCreatableMaterials(hand) {
     const materials = [];
@@ -139,12 +155,23 @@ document.getElementById('exchangeButton').addEventListener('click', () => {
     const selectedCards = document.querySelectorAll('#hand .selected img');
     selectedCards.forEach(card => {
         const element = card.alt.split(' ')[1];
-        const index = currentHand.indexOf(element);
+        const index = playerHand.indexOf(element);
         if (index > -1) {
-            currentHand[index] = drawRandomElements(elements, 1)[0];
+            playerHand[index] = drawRandomElements(elements, 1)[0];
         }
-        card.parentNode.classList.remove('selected'); // Deselect the card
+        card.parentNode.classList.remove('selected');
     });
-    selectedElements = {}; // Clear selected elements
-    displayHand(currentHand, 'hand');
+    selectedElements = {};
+    displayHand(playerHand, 'hand');
+});
+
+function initializeHands() {
+    aiHand = drawRandomElements(elements, 8); // AIの手札を初期化
+    playerHand = drawRandomElements(elements, 8); // プレイヤーの手札を初期化
+    displayHand(aiHand, 'aiHand');
+    displayHand(playerHand, 'hand');
+}
+
+document.getElementById('drawCards').addEventListener('click', () => {
+    initializeHands();
 });
