@@ -49,12 +49,14 @@
             document.getElementById('points').textContent = 'ポイント: 0';
             document.getElementById('aiPoints').textContent = 'AIポイント: 0';
             document.getElementById('hand').innerHTML = '';
-            document.getElementById('aiHand').innerHTML = '';
+            document.getElementById('aiHand').innerHTML = ''; // AIの手札をクリア
             document.getElementById('results').innerHTML = '';
+            document.getElementById('aiHand').style.display = 'none'; // AIの手札を非表示
             document.getElementById('drawCards').style.display = 'block'; // 再スタートボタンを表示
             disableButtons(true);
             disablePlayerCards(true);
-}
+        }
+
 
     </script>
 </body>
