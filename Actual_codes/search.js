@@ -36,14 +36,15 @@ document.getElementById('searchButton').addEventListener('click', async () => {
 
     if (foundMaterials.length > 0) {
         foundMaterials.forEach(material => {
-            resultDiv.innerHTML += `<p>${material.name} (${material.formula}) - ${material.point} points</p>`;
-            totalPoints += material.point;
-            replaceUsedCards(material, playerHand); // replaceUsedCards関数で内部データと表示を更新
+            resultDiv.innerHTML += `<p>${material.name} (${material.formula}) - ${material.point} ポイント</p>`;
+            playerPoints += material.point;
+            replaceUsedCards(material, playerHand);
         });
-        pointsDiv.textContent = `ポイント： ${totalPoints}`;
+        pointsDiv.textContent = `ポイント： ${playerPoints}`;
+        checkWinCondition(); // 勝利条件を確認
     } else {
         resultDiv.innerHTML = '<p>該当する物質が見つかりませんでした。</p>';
     }
-
-    aiTurn(); // AIのターンを開始
+    
+    aiTurn();
 });
