@@ -25,6 +25,22 @@ async function findMaterials(components) {
     });
 }
 
+document.getElementById('exchangeButton').addEventListener('click', () => {
+    const selectedCards = document.querySelectorAll('#hand .selected img');
+    selectedCards.forEach(card => {
+        const element = card.alt.split(' ')[1];
+        const index = currentHand.indexOf(element);
+        if (index > -1) {
+            currentHand[index] = drawRandomElements(elements, 1)[0];
+            card.parentNode.classList.remove('selected'); // Deselect the card
+        }
+    });
+    selectedElements = {}; // Clear selected elements
+    displayHand(currentHand, 'hand');
+
+    aiTurn();
+});
+
 let totalPoints = 0; // ポイントの合計を保持する変数
 
 
@@ -33,8 +49,6 @@ document.getElementById('searchButton').addEventListener('click', async () => {
     const resultDiv = document.getElementById('results');
     const pointsDiv = document.getElementById('points'); // ポイント表示用の要素
     resultDiv.innerHTML = '';
-
-    totalPoints = 0; // 新しい検索ごとにポイントをリセット
 
     // 選択されているカードの画像を、それぞれの元素に対応する新しい画像に置き換えます。
     const selectedCards = document.querySelectorAll('.selected img');
@@ -55,4 +69,6 @@ document.getElementById('searchButton').addEventListener('click', async () => {
     } else {
         resultDiv.innerHTML = '<p>該当する物質が見つかりませんでした。</p>';
     }
+
+    aiTurn();
 });
