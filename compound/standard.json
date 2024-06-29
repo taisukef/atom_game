@@ -691,12 +691,21 @@
             }
         },
         {
-            "name": "二酸化ケイ素",
-            "formula": "SiO2",
-            "point": 12,
+            "name": "酸化リチウム",
+            "formula": "Li2O",
+            "point": 35,
             "components": {
-                "Si": 1,
-                "O": 2
+                "Li": 2,
+                "O": 1
+            }
+        },
+        {
+            "name": "メチル",
+            "formula": "CH3",
+            "point": 20,
+            "components": {
+                "C": 1,
+                "H": 3
             }
         }
     ]
