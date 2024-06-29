@@ -10,18 +10,28 @@
             border-color: red; /* 選択されたときに赤枠で表示 */
             transform: scale(1.1); /* 少し大きく表示 */
         }
+        .hand {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
-    <div id="points">ポイント: 0</div>
+    <div id="aiPoints">AIポイント: 0</div>
+    <div id="aiHand" class="hand"></div> <!-- AIの手札を表示する領域 -->
 
-    <button id="drawCards">カードを引く</button>
-    <button id="replaceCard">カードを交換する</button>
-    <div id="hand"></div>
-    <button id="searchButton">物質を検索</button>
+    <div id="points">ポイント: 0</div>
+    <div id="hand" class="hand"></div> <!-- プレイヤーの手札を表示する領域 -->
+
+    <button id="drawCards">試合を開始する</button> <!-- ボタンの名前を変更 -->
+    <button id="exchangeButton">元素を交換</button>
+    <button id="searchButton">物質を生成</button> <!-- 物質を生成ボタン -->
     <div id="results"></div>
+
     <script src="../Actual_codes/common.js"></script>
     <script src="../Actual_codes/cards.js"></script>
     <script src="../Actual_codes/search.js"></script>
+    <script src="../Actual_codes/com.js"></script> <!-- com.jsを読み込む -->
+
+    
 </body>
 </html>
