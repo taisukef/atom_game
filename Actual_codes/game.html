@@ -4,34 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>元素ゲーム</title>
-    <link rel="shortcut icon" href="https://kurorosuke.github.io/atom_game/favicon.ico" />
     <style>
         .selected {
-            border-color: red; /* 選択されたときに赤枠で表示 */
-            transform: scale(1.1); /* 少し大きく表示 */
+            border-color: red;
+            transform: scale(1.1);
         }
         .hand {
             margin-bottom: 20px;
+        }
+        #aiHand .card {
+            pointer-events: none; /* AIのカードを選択できないようにする */
         }
     </style>
 </head>
 <body>
     <div id="aiPoints">AIポイント: 0</div>
-    <div id="aiHand" class="hand"></div> <!-- AIの手札を表示する領域 -->
+    <div id="aiHand" class="hand"></div>
 
     <div id="points">ポイント: 0</div>
-    <div id="hand" class="hand"></div> <!-- プレイヤーの手札を表示する領域 -->
+    <div id="hand" class="hand"></div>
 
-    <button id="drawCards">試合を開始する</button> <!-- ボタンの名前を変更 -->
+    <button id="drawCards">試合を開始する</button>
     <button id="exchangeButton">元素を交換</button>
-    <button id="searchButton">物質を生成</button> <!-- 物質を生成ボタン -->
+    <button id="searchButton">物質を生成</button>
     <div id="results"></div>
 
     <script src="../Actual_codes/common.js"></script>
     <script src="../Actual_codes/cards.js"></script>
     <script src="../Actual_codes/search.js"></script>
-    <script src="../Actual_codes/com.js"></script> <!-- com.jsを読み込む -->
-
-    
+    <script src="../Actual_codes/com.js"></script>
 </body>
 </html>
