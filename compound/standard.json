@@ -144,16 +144,6 @@
             }
         },
         {
-            "name": "リン酸",
-            "formula": "H3PO4",
-            "point": 65,
-            "components": {
-                "H": 3,
-                "P": 1,
-                "O": 4
-            }
-        },
-        {
             "name": "二酸化炭素",
             "formula": "CO2",
             "point": 7,
