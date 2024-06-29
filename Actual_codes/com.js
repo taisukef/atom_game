@@ -152,17 +152,21 @@ function decideElementsToExchange(currentHand) {
 }
 
 document.getElementById('exchangeButton').addEventListener('click', () => {
-    const selectedCards = document.querySelectorAll('#hand .selected img');
+    let selectedCards = document.querySelectorAll('#hand .selected img');
     selectedCards.forEach(card => {
-        const element = card.alt.split(' ')[1];
-        const index = playerHand.indexOf(element);
+        let element = card.alt.split(' ')[1];
+        let index = playerHand.indexOf(element);
         if (index > -1) {
-            playerHand[index] = drawRandomElements(elements, 1)[0];
+            let newElement = elements[Math.floor(Math.random() * elements.length)]; // ランダムな新しい元素を選ぶ
+            let elementNumber = elementToNumber[newElement]; // 元素記号に対応する番号を取得
+            playerHand[index] = newElement;
+            card.src = `../image/${elementNumber}.png`; // 番号に基づいて画像のパスを設定
+            card.alt = `Element ${newElement}`; // 画像のalt属性を更新
         }
-        card.parentNode.classList.remove('selected');
+        card.parentNode.classList.remove('selected'); // カードの選択状態を解除
     });
-    selectedElements = {};
-    displayHand(playerHand, 'hand');
+    selectedElements = {}; // 選択状態をリセット
+    displayHand(playerHand, 'hand'); // 手札を再表示
 });
 
 function initializeHands() {
