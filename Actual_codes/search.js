@@ -25,22 +25,6 @@ async function findMaterials(components) {
     });
 }
 
-document.getElementById('exchangeButton').addEventListener('click', () => {
-    const selectedCards = document.querySelectorAll('#hand .selected img');
-    selectedCards.forEach(card => {
-        const element = card.alt.split(' ')[1];
-        const index = currentHand.indexOf(element);
-        if (index > -1) {
-            currentHand[index] = drawRandomElements(elements, 1)[0];
-            card.parentNode.classList.remove('selected'); // Deselect the card
-        }
-    });
-    selectedElements = {}; // Clear selected elements
-    displayHand(currentHand, 'hand');
-
-    aiTurn();
-});
-
 let totalPoints = 0; // ポイントの合計を保持する変数
 
 
