@@ -2,6 +2,7 @@ let playerPoints = 0;
 
 async function aiTurn() {
     clearAISelection();
+    disableButtons(true);
     const possibleCompounds = await listCreatableMaterials(aiHand);
     const aiPointsDiv = document.getElementById('aiPoints');
     const resultDiv = document.getElementById('results');
@@ -36,6 +37,12 @@ async function aiTurn() {
             }
         }
     }
+    disableButtons(false);
+}
+
+function disableButtons(disable) {
+    document.getElementById('exchangeButton').disabled = disable;
+    document.getElementById('searchButton').disabled = disable;
 }
 
 function updatePoints(compound, pointsDiv) {
@@ -127,3 +134,17 @@ function decideElementsToExchange(currentHand) {
     }
     return elementToExchange;
 }
+
+document.getElementById('exchangeButton').addEventListener('click', () => {
+    const selectedCards = document.querySelectorAll('#hand .selected img');
+    selectedCards.forEach(card => {
+        const element = card.alt.split(' ')[1];
+        const index = currentHand.indexOf(element);
+        if (index > -1) {
+            currentHand[index] = drawRandomElements(elements, 1)[0];
+        }
+        card.parentNode.classList.remove('selected'); // Deselect the card
+    });
+    selectedElements = {}; // Clear selected elements
+    displayHand(currentHand, 'hand');
+});
