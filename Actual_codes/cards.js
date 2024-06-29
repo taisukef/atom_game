@@ -9,10 +9,15 @@ let selectedElements = {};
 let aiHand = [];
 let aiPoints = 0;
 
-function drawRandomElements(elements, numCards) {
-    const shuffled = elements.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, numCards);
+function drawRandomElements(elementsArray, count) {
+    const selectedElements = [];
+    for (let i = 0; i < count; i++) {
+        const randomIndex = Math.floor(Math.random() * elementsArray.length);
+        selectedElements.push(elementsArray[randomIndex]);
+    }
+    return selectedElements;
 }
+
 
 function displayHand(hand, handDivId) {
     const handDiv = document.getElementById(handDivId);
