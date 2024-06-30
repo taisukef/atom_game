@@ -75,10 +75,10 @@
         
             // 先攻後攻をランダムに決定
             if (Math.random() < 0.5) {
+                console.log("プレイヤーが先攻です。");
+            } else {
                 console.log("AIが先攻です。");
                 aiTurn(); // AIのターンを開始
-            } else {
-                console.log("プレイヤーが先攻です。");
             }
         }
         
