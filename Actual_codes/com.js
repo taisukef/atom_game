@@ -5,7 +5,8 @@ let playerPoints = 0;
 async function aiTurn() {
     clearAISelection();
     disableButtons(true);
-    disablePlayerCards(true);
+    disablePlayerCards(true); // プレイヤーのカード選択を無効化
+
     const possibleCompounds = await listCreatableMaterials(aiHand);
     const aiPointsDiv = document.getElementById('aiPoints');
     const resultDiv = document.getElementById('results');
@@ -41,7 +42,7 @@ async function aiTurn() {
         }
     }
     disableButtons(false);
-    disablePlayerCards(false);
+    disablePlayerCards(false); // AIのターン終了後にカード選択を再有効化
     console.log('現在のプレイヤーの手札:', playerHand);
 }
 
@@ -53,7 +54,7 @@ function disableButtons(disable) {
 function disablePlayerCards(disable) {
     const playerCards = document.querySelectorAll('#hand .card');
     playerCards.forEach(card => {
-        card.style.pointerEvents = disable ? 'none' : 'auto';
+        card.style.pointerEvents = disable ? 'none' : 'auto'; // 無効化時はクリック不可
     });
 }
 
@@ -62,7 +63,6 @@ function updatePoints(compound, pointsDiv) {
     pointsDiv.textContent = `AIポイント: ${aiPoints}`;
     checkWinCondition(); // 勝利条件を確認
 }
-
 
 function replaceUsedCards(compound, hand, isAI = false) {
     for (let element in compound.components) {
@@ -78,7 +78,6 @@ function replaceUsedCards(compound, hand, isAI = false) {
     }
     displayHand(hand, isAI ? 'aiHand' : 'hand');
 }
-
 
 async function listCreatableMaterials(hand) {
     const materials = [];
@@ -159,22 +158,22 @@ document.getElementById('exchangeButton').addEventListener('click', () => {
         let element = card.alt.split(' ')[1];
         let index = playerHand.indexOf(element);
         if (index > -1) {
-            let newElement = elements[Math.floor(Math.random() * elements.length)]; // ランダムな新しい元素を選ぶ
-            let elementNumber = elementToNumber[newElement]; // 元素記号に対応する番号を取得
+            let newElement = elements[Math.floor(Math.random() * elements.length)];
+            let elementNumber = elementToNumber[newElement];
             playerHand[index] = newElement;
-            card.src = `../image/${elementNumber}.png`; // 番号に基づいて画像のパスを設定
-            card.alt = `Element ${newElement}`; // 画像のalt属性を更新
+            card.src = `../image/${elementNumber}.png`;
+            card.alt = `Element ${newElement}`;
         }
-        card.parentNode.classList.remove('selected'); // カードの選択状態を解除
+        card.parentNode.classList.remove('selected');
     });
-    selectedElements = {}; // 選択状態をリセット
-    displayHand(playerHand, 'hand'); // 手札を再表示
-    aiTurn()
+    selectedElements = {};
+    displayHand(playerHand, 'hand');
+    aiTurn();
 });
 
 function initializeHands() {
-    aiHand = drawRandomElements(elements, 8); // AIの手札を初期化
-    playerHand = drawRandomElements(elements, 8); // プレイヤーの手札を初期化
+    aiHand = drawRandomElements(elements, 8);
+    playerHand = drawRandomElements(elements, 8);
     displayHand(aiHand, 'aiHand');
     displayHand(playerHand, 'hand');
 }
