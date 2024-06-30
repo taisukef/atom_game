@@ -14,13 +14,14 @@
             margin-bottom: 20px;
         }
         #aiHand .card {
-            pointer-events: none; /* AIのカードを選択できないようにする */
+            pointer-events: none;
         }
         .move {
-            width: 200px; /* ボタンの幅 */
-            height: 60px; /* ボタンの高さ */
-            font-size: 20px; /* フォントサイズ */
-            padding: 10px; /* 内側の余白 */
+            width: 200px;
+            height: 60px;
+            font-size: 20px;
+            padding: 10px;
+            visibility: hidden;
         }
     </style>
 </head>
@@ -64,6 +65,8 @@
         }
 
         function initializeHands() {
+            document.getElementById('exchangeButton').style.visibility = 'visible';
+            document.getElementById('searchButton').style.visibility = 'visible';
             aiHand = drawRandomElements(elements, 8); // AIの手札を初期化
             playerHand = drawRandomElements(elements, 8); // プレイヤーの手札を初期化
             displayHand(aiHand, 'aiHand');
