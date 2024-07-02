@@ -46,7 +46,6 @@ async function p1_generate() {
     if (p1_selected_cards.length != 0) {
         let material
         await search_material(array_to_dict(p1_selected_cards)).then(data => material = data[0]);;
-        console.log(material);
         if (material !== undefined) {
                 document.getElementById('p1_text').innerHTML = `<p>生成した物質：　　${material.name} (${material.formula}) - ${material.point} ポイント</p>`;
                 p1_point += material.point;
@@ -54,6 +53,7 @@ async function p1_generate() {
         } else {
             document.getElementById('p1_text').innerHTML = '該当の物質がありません';
         }
+        p1_exchange();
         p1_selected_cards = [];
         p1_selected_place = [0,0,0,0,0,0,0,0];
         turn = 'p2';
@@ -66,7 +66,6 @@ async function p2_generate() {
     if (p2_selected_cards.length != 0) {
         let material
         await search_material(array_to_dict(p2_selected_cards)).then(data => material = data[0]);;
-        console.log(material);
         if (material !== undefined) {
                 document.getElementById('p2_text').innerHTML = `<p>生成した物質：　　${material.name} (${material.formula}) - ${material.point} ポイント</p>`;
                 p2_point += material.point;
@@ -74,6 +73,7 @@ async function p2_generate() {
         } else {
             document.getElementById('p2_text').innerHTML = '該当の物質がありません';
         }
+        p2_exchange();
         p2_selected_cards = [];
         p2_selected_place = [0,0,0,0,0,0,0,0];
         turn = 'p1';
@@ -85,11 +85,10 @@ async function p2_generate() {
 function p1_exchange() {
     p1_selected_place.forEach((item,index) => {
         if (item == 1) {
-            p1_hand[index] = get_random_card();
-        };
-    });
+            p1_hand[index] = get_random_card()
+        }
+    })
     p1_selected_place = [0,0,0,0,0,0,0,0];
-    p1_hand= [];
     p1_view_hand();
     turn = 'p2';
 }
@@ -101,13 +100,13 @@ function p2_exchange() {
         };
     });
     p2_selected_place = [0,0,0,0,0,0,0,0];
-    p2_hand= [];
     p2_view_hand();
     turn = 'p1';
 }
 
 function p1_view_hand() {
     const Hand_Div = document.getElementById('p1_hand');
+    Hand_Div.innerHTML = ``
     p1_hand.forEach((element, index) => {
         const img = document.createElement('img');
         img.src = `../image/${elementToNumber[element]}.png`;
@@ -133,16 +132,15 @@ function p1_view_hand() {
                     }
                     this.style.transform = 'scale(1.00)';
                 }
-                console.log(p1_selected_place);
             }
         });
         Hand_Div.appendChild(img);
     });
 }
 
-
 function p2_view_hand() {
     const Hand_Div = document.getElementById('p2_hand');
+    Hand_Div.innerHTML = ``
     p2_hand.forEach((element, index) => {
         const img = document.createElement('img');
         img.src = `../image/${elementToNumber[element]}.png`;
@@ -168,13 +166,11 @@ function p2_view_hand() {
                     }
                     this.style.transform = 'scale(1.00)';
                 }
-                console.log(p2_selected_place);
             }
         });
         Hand_Div.appendChild(img);
     });
 }
-
 
 async function loadMaterials() {
     const response = await fetch('../compound/standard.json');
@@ -215,7 +211,6 @@ function get_random_card() {
 }
 
 function array_to_dict(array) {
-    console.log(array);
     const result = {};
     array.forEach(item => {
       if (result[item]) {
@@ -224,12 +219,10 @@ function array_to_dict(array) {
         result[item] = 1;
       }
     });
-    console.log(result);
     return result;
 }
 
 function reset_size(p1_or_p2) {
-    console.log(p1_or_p2);
     let div = document.getElementById(p1_or_p2);
     let div_img = div.getElementsByTagName('img');
     for (i=0;i<div_img.length;i++){
