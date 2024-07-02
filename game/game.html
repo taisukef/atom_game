@@ -7,9 +7,8 @@
     <link rel="shortcut icon" href="https://kurorosuke.github.io/atom_game/favicon.ico" />
     <link rel="apple-touch-icon" href="https://kurorosuke.github.io/atom_game/touch-icon.png" sizes="180×180">
     <style>
-        .p1 {
+        #p1_hand {
             transform: scaleY(-1);
-            transform: scaleX(-1)
         }
         #p1_exchange,#p1_generate,#p2_exchange,#p2_generate,#start {
             width: 200px;
@@ -18,12 +17,12 @@
             padding: 10px;
         }
         body, html {
-            height: 100%;  /* ページ全体の高さを指定 */
+            height: 100%;
             margin: 0;
             padding: 0;
-            display: flex;  /* Flexboxを有効化 */
-            flex-direction: column;  /* 子要素を垂直方向に並べる */
-            justify-content: space-between;  /* 子要素を上端と下端に配置 */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         #start {
             margin-top: auto;
@@ -39,10 +38,10 @@
     <button id="start">試合を開始</button>
 
     <div id="p1">
-        <button id="p1_exchange">交換</button>
-        <button id="p1_generate" onclick="reset_size('p1_hand')">生成</button>
-        <p id="p1_point">プレイヤー１のポイント</p>
-        <p id="p1_text">プレイヤー１の作った物質</p>
+        <button id="p1_exchange" style="rotate: 180deg;">交換</button>
+        <button id="p1_generate" onclick="reset_size('p1_hand')" style="rotate: 180deg;">生成</button>
+        <p id="p1_point" style="rotate: 180deg;text-align: right">プレイヤー１のポイント</p>
+        <p id="p1_text" style="rotate: 180deg;text-align: right">プレイヤー１の作った物質</p>
         <div id="p1_hand"></div>
     </div>
     <p></p>
