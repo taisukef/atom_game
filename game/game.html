@@ -42,7 +42,7 @@
 
     <div id="p1">
         <button id="p1_generate" onclick="reset_size('p1_hand')" style="rotate: 180deg;">生成</button>
-        <button id="p1_exchange" style="rotate: 180deg;">交換</button>
+        <button id="p1_exchange" onclick="reset_size('p1_hand')" style="rotate: 180deg;">交換</button>
         <p id="p1_point" style="rotate: 180deg;text-align: right">プレイヤー１のポイント</p>
         <p id="p1_text" style="rotate: 180deg;text-align: right">プレイヤー１の作った物質</p>
         <div id="p1_hand" style="rotate: 180deg;text-align: right"></div>
@@ -52,7 +52,7 @@
         <div id="p2_hand"></div>
         <p id="p2_text">プレイヤー２の作った物質</p>
         <p id="p2_point">プレイヤー２のポイント</p>
-        <button id="p2_exchange">交換</button>
+        <button id="p2_exchange" onclick="reset_size('p2_hand')">交換</button>
         <button id="p2_generate" onclick="reset_size('p2_hand')">生成</button>
     </div>
 
