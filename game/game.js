@@ -83,25 +83,35 @@ async function p2_generate() {
 }
 
 function p1_exchange() {
-    p1_selected_place.forEach((item,index) => {
-        if (item == 1) {
-            p1_hand[index] = get_random_card()
-        }
-    })
-    p1_selected_place = [0,0,0,0,0,0,0,0];
-    p1_view_hand();
-    turn = 'p2';
+    if (p1_selected_cards.length >= 1) {
+        p1_selected_place.forEach((item,index) => {
+            if (item == 1) {
+                p1_hand[index] = get_random_card();
+            };
+        });
+        p1_selected_cards = [];
+        p1_selected_place = [0,0,0,0,0,0,0,0];
+        p1_view_hand();
+        turn = 'p1';
+    } else {
+        document.getElementById('p1_text').innerHTML = 'カードが選択されていません';
+    }
 }
 
 function p2_exchange() {
-    p2_selected_place.forEach((item,index) => {
-        if (item == 1) {
-            p2_hand[index] = get_random_card();
-        };
-    });
-    p2_selected_place = [0,0,0,0,0,0,0,0];
-    p2_view_hand();
-    turn = 'p1';
+    if (p2_selected_cards.length >= 1) {
+        p2_selected_place.forEach((item,index) => {
+            if (item == 1) {
+                p2_hand[index] = get_random_card();
+            };
+        });
+        p2_selected_cards = [];
+        p2_selected_place = [0,0,0,0,0,0,0,0];
+        p2_view_hand();
+        turn = 'p1';
+    } else {
+        document.getElementById('p1_text').innerHTML = 'カードが選択されていません';
+    }
 }
 
 function p1_view_hand() {
@@ -132,6 +142,7 @@ function p1_view_hand() {
                     }
                     this.style.transform = 'scale(1.00)';
                 }
+                console.log(p1_selected_cards)
             }
         });
         Hand_Div.appendChild(img);
@@ -166,6 +177,7 @@ function p2_view_hand() {
                     }
                     this.style.transform = 'scale(1.00)';
                 }
+                console.log(p2_selected_cards)
             }
         });
         Hand_Div.appendChild(img);
