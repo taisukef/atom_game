@@ -52,7 +52,22 @@ async function ai_generate() {
         ai_selected_place = [0,0,0,0,0,0,0,0];
         turn = 'player';
     } else {
-        console.log(ai_selected_cards)
+        document.getElementById('ai_text').innerHTML = 'カードが選択されていません';
+    }
+}
+
+function ai_exchange() {
+    if (ai_selected_cards.length >= 1) {
+        ai_selected_place.forEach((item,index) => {
+            if (item == 1) {
+                ai_hand[index] = get_card();
+            };
+        });
+        ai_selected_cards = [];
+        ai_selected_place = [0,0,0,0,0,0,0,0];
+        view_ai_hand();
+        turn = 'player';
+    } else {
         document.getElementById('ai_text').innerHTML = 'カードが選択されていません';
     }
 }
@@ -60,20 +75,16 @@ async function ai_generate() {
 async function ai_turn() {
     view_ai_hand()
     await search_make_materials().then(result => {make_material = result})
-    console.log(make_material)
     await select_cards()
     await ai_generate()
     turn = 'player';
 }
 
 function select_cards() {
-    const need_cards = Object.entries(make_material.components).flatMap(([key, value]) => Array(value).fill(key));
-    console.log(need_cards)
+    var need_cards = Object.entries(make_material.components).flatMap(([key, value]) => Array(value).fill(key));
     const cards = document.getElementsByClassName('ai_card');
     for (i=0;i<=7;i++) {
         elem = cards[i]
-        console.log(elem.alt)
-        console.log(need_cards.includes(elem.alt))
         if (need_cards.includes(elem.alt)) {
             need_cards.splice(need_cards.indexOf(elem.alt),0);
             elem.style.transform = 'scale(1.10)';
@@ -81,7 +92,6 @@ function select_cards() {
             ai_selected_place[elem.id] = 1;
         }
     }
-    console.log(ai_selected_cards)
 }
 
 async function loadMaterials() {
@@ -168,6 +178,7 @@ function initial_hand() {
 
 function view_ai_hand() {
     const Hand_div = document.getElementById('ai_hand');
+    Hand_div.innerHTML = ``;
     ai_hand.forEach((elem,index) => {
         const img = document.createElement('img');
         img.src = `../image/${elementToNumber[elem]}.png`;
