@@ -89,6 +89,7 @@ function p1_exchange() {
         };
     });
     p1_selected_place = [0,0,0,0,0,0,0,0];
+    p1_hand= [];
     p1_view_hand();
     turn = 'p2';
 }
@@ -100,6 +101,7 @@ function p2_exchange() {
         };
     });
     p2_selected_place = [0,0,0,0,0,0,0,0];
+    p2_hand= [];
     p2_view_hand();
     turn = 'p1';
 }
