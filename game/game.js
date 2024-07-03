@@ -4,8 +4,6 @@ let p2_hand = [];
 let p1_selected_cards = [];
 let p2_selected_cards = [];
 
-let hand_num = 10;
-
 let p1_selected_place = [0,0,0,0,0,0,0,0];
 let p2_selected_place = [0,0,0,0,0,0,0,0];
 
@@ -214,7 +212,7 @@ async function search_material(components) {
 }
 
 function initial_hand() {
-    for (i=1;i<=hand_num;i++) {
+    for (i=1;i<=10;i++) {
         p1_hand.push(elements[Math.floor(Math.random() * elements.length)]);
         p2_hand.push(elements[Math.floor(Math.random() * elements.length)]);
     }
