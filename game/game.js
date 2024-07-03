@@ -1,7 +1,7 @@
 let p1_hand = [];
 let p2_hand = [];
 
-let hand_num = 30;
+let hand_num = 10;
 
 let p1_selected_cards = [];
 let p2_selected_cards = [];
