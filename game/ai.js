@@ -17,10 +17,10 @@ const elements = [...Array(30).fill('H'), ...Array(25).fill('O'), ...Array(20).f
 const element = ['H','O','C','He', 'Li', 'Be', 'B', 'N', 'F', 'Ne', 'Na', 'Mg', 'Al', 'Si', 'P', 'S', 'Cl', 'Ar', 'K', 'Ca','Fe', 'Cu', 'Zn', 'I']
 
 
-let ai_generate_button = document.getElementById('ai_generate');
-let ai_exchange_button = document.getElementById('ai_exchange');
-ai_generate_button.ariaDisabled = 'disabled';
-ai_exchange_button.ariaDisabled = 'disabled';
+let player_generate_button = document.getElementById('player_generate');
+let player_exchange_button = document.getElementById('player_exchange');
+player_generate_button.ariaDisabled = 'disabled';
+player_exchange_button.ariaDisabled = 'disabled';
 
 function array_to_dict(array) {
     const result = {};
