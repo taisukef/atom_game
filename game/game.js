@@ -1,10 +1,10 @@
 let p1_hand = [];
 let p2_hand = [];
 
-let hand_num = 10;
-
 let p1_selected_cards = [];
 let p2_selected_cards = [];
+
+let hand_num = 0;
 
 let p1_selected_place = [0,0,0,0,0,0,0,0];
 let p2_selected_place = [0,0,0,0,0,0,0,0];
@@ -239,7 +239,7 @@ function array_to_dict(array) {
 function reset_size(p1_or_p2) {
     let div = document.getElementById(p1_or_p2);
     let div_img = div.getElementsByTagName('img');
-    for (i=0;i<div_img-1.length;i++){
+    for (i=0;i<hand_num-1.length;i++){
         div_img[i].style.transform = 'scale(1.00)';
     }
 }
