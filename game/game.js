@@ -92,7 +92,7 @@ function p1_exchange() {
         p1_selected_cards = [];
         p1_selected_place = [0,0,0,0,0,0,0,0];
         p1_view_hand();
-        turn = 'p1';
+        turn = 'p2';
     } else {
         document.getElementById('p1_text').innerHTML = 'カードが選択されていません';
     }
