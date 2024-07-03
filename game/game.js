@@ -207,14 +207,14 @@ async function search_material(components) {
         for (const element in material.components) {
             if (!components[element]) {
                 return false;
-            }
+..            }
         }
         return true;
     })
 }
 
 function initial_hand() {
-    for (i=0;i<=(hand_num-1);i++) {
+    for (i=1;i<=hand_num;i++) {
         p1_hand.push(elements[Math.floor(Math.random() * elements.length)]);
         p2_hand.push(elements[Math.floor(Math.random() * elements.length)]);
     }
