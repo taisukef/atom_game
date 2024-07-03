@@ -4,7 +4,7 @@ let p2_hand = [];
 let p1_selected_cards = [];
 let p2_selected_cards = [];
 
-let hand_num = 0;
+let hand_num = 10;
 
 let p1_selected_place = [0,0,0,0,0,0,0,0];
 let p2_selected_place = [0,0,0,0,0,0,0,0];
