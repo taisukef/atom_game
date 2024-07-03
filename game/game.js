@@ -1,6 +1,8 @@
 let p1_hand = [];
 let p2_hand = [];
 
+let hand_num = 30;
+
 let p1_selected_cards = [];
 let p2_selected_cards = [];
 
@@ -212,7 +214,7 @@ async function search_material(components) {
 }
 
 function initial_hand() {
-    for (i=0;i<=9;i++) {
+    for (i=0;i<=hand_num;i++) {
         p1_hand.push(elements[Math.floor(Math.random() * elements.length)]);
         p2_hand.push(elements[Math.floor(Math.random() * elements.length)]);
     }
@@ -237,7 +239,7 @@ function array_to_dict(array) {
 function reset_size(p1_or_p2) {
     let div = document.getElementById(p1_or_p2);
     let div_img = div.getElementsByTagName('img');
-    for (i=0;i<div_img.length;i++){
+    for (i=0;i<div_img-1.length;i++){
         div_img[i].style.transform = 'scale(1.00)';
     }
 }
