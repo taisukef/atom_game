@@ -215,7 +215,8 @@ function initial_hand() {
     for (i=1;i<=8;i++) {
         p1_hand.push(elements[Math.floor(Math.random() * elements.length)]);
         p2_hand.push(elements[Math.floor(Math.random() * elements.length)]);
-        alert('run')
+        const txt = document.getElementById('p1_text');
+        txt.innerHTML = 'run';
     }
 }
 
