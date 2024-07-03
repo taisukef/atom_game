@@ -239,7 +239,7 @@ function array_to_dict(array) {
 function reset_size(p1_or_p2) {
     let div = document.getElementById(p1_or_p2);
     let div_img = div.getElementsByTagName('img');
-    for (i=0;i<hand_num-1.length;i++){
+    for (i=0;i<div_img.length;i++){
         div_img[i].style.transform = 'scale(1.00)';
     }
 }
