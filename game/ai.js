@@ -296,16 +296,18 @@ function view_player_hand() {
         img.style.border = '1px solid #000';
         img.style.margin = '5px';
         img.addEventListener('click', function() {
-            if (this.classList.contains('selected')) {
-                this.classList.remove('selected');
-                player_selected_cards.splice(player_selected_cards.indexOf(this.alt), 1);;
-                player_selected_place[this.id] = 0;
-                this.style.transform = 'scale(1.00)';
-            } else {
-                this.classList.add('selected');
-                player_selected_cards.push(this.alt);
-                player_selected_place[this.id] = 1;
-                this.style.transform = 'scale(1.10)';
+            if (turn == (player') {
+                if (this.classList.contains('selected')) {
+                    this.classList.remove('selected');
+                    player_selected_cards.splice(player_selected_cards.indexOf(this.alt), 1);;
+                    player_selected_place[this.id] = 0;
+                    this.style.transform = 'scale(1.00)';
+                } else {
+                    this.classList.add('selected');
+                    player_selected_cards.push(this.alt);
+                    player_selected_place[this.id] = 1;
+                    this.style.transform = 'scale(1.10)';
+                }
             }
         });
         Hand_div.appendChild(img);
