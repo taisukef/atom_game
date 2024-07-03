@@ -212,7 +212,7 @@ async function search_material(components) {
 }
 
 function initial_hand() {
-    for (i=0;i<=7;i++) {
+    for (i=0;i<=9;i++) {
         p1_hand.push(elements[Math.floor(Math.random() * elements.length)]);
         p2_hand.push(elements[Math.floor(Math.random() * elements.length)]);
     }
