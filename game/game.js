@@ -124,7 +124,7 @@ function p1_view_hand() {
         img.src = `../image/${elementToNumber[element]}.png`;
         img.alt = element;
         img.style.width = '60px';
-        img.style.margin = '5px';
+        img.style.margin = '10px';
         img.style.border = '1px solid #000';
         img.className = 'p1';
         img.place = index;
@@ -134,7 +134,7 @@ function p1_view_hand() {
                     this.classList.add('selected');
                     p1_selected_cards.push(this.alt);
                     p1_selected_place[index] = 1;
-                    this.style.transform = 'scale(1.10)';
+                    this.style.transform = 'scale(1.20)';
                     this.style.border = '1px solid #F00';
                 } else {
                     this.classList.remove('selected');
@@ -161,7 +161,7 @@ function p2_view_hand() {
         img.src = `../image/${elementToNumber[element]}.png`;
         img.alt = element;
         img.style.width = '60px';
-        img.style.margin = '5px';
+        img.style.margin = '10px';
         img.style.border = '1px solid #000';
         img.className = 'p2';
         img.place = index;
@@ -171,7 +171,7 @@ function p2_view_hand() {
                     this.classList.add('selected');
                     p2_selected_cards.push(this.alt);
                     p2_selected_place[index] = 1;
-                    this.style.transform = 'scale(1.10)';
+                    this.style.transform = 'scale(1.20)';
                     this.style.border = '1px solid #F00';
                 } else {
                     this.classList.remove('selected');
