@@ -135,6 +135,7 @@ function p1_view_hand() {
                     p1_selected_cards.push(this.alt);
                     p1_selected_place[index] = 1;
                     this.style.transform = 'scale(1.10)';
+                    this.style.border = '1px solid #F00';
                 } else {
                     this.classList.remove('selected');
                     const cardIndex = p1_selected_cards.indexOf(this.alt);
@@ -143,6 +144,7 @@ function p1_view_hand() {
                         p1_selected_place[index] = 0;
                     }
                     this.style.transform = 'scale(1.00)';
+                    this.style.border = '1px solid #000';
                 }
                 console.log(p1_selected_cards)
             }
@@ -170,6 +172,7 @@ function p2_view_hand() {
                     p2_selected_cards.push(this.alt);
                     p2_selected_place[index] = 1;
                     this.style.transform = 'scale(1.10)';
+                    this.style.border = '1px solid #F00';
                 } else {
                     this.classList.remove('selected');
                     const cardIndex = p2_selected_cards.indexOf(this.alt);
@@ -178,6 +181,7 @@ function p2_view_hand() {
                         p2_selected_place[index] = 0;
                     }
                     this.style.transform = 'scale(1.00)';
+                    this.style.border = '1px solid #000';
                 }
                 console.log(p2_selected_cards)
             }
