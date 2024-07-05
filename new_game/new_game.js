@@ -1,4 +1,12 @@
+let ai_hand = [];
+let pl_hand = [];
 
+let ai_selected_cards = [];
+let ai_selected_place = [];
+let pl_selected_cards = [];
+let pl_selected_place = [];
+
+let turn = 'pl';
 
 function ai_turn() {}
 function pl_turn() {}
@@ -26,7 +34,26 @@ function view_ai_hand() {
     })
   })
 }
-function view_pl_hand() {}
+
+function view_pl_hand() {
+  const Hand_div = document.getElementById('pl_hand');
+  Hand_div.innerHTML == '';
+  pl_hand.forEach((elem,index) => {
+    const img = document.createElement('img');
+    img.id = index;
+    img.alt = elem;
+    img.style.border = '1px solid #000';
+    img.style.margin = '5px';
+    img.ClassName = 'ai_crad';
+    img.addEventListener('click', function() {
+      if (turn == 'pl') {
+        if (this.ClassList.contains('selected')) {
+          this.ClassList.add('selected');
+        }
+      }
+    })
+  })
+}}
 
 function get_random_card() {}
 function make_initial_hand() {}
