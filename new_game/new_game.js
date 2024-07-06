@@ -29,12 +29,20 @@ document.getElementById('pl_generate_button').addEventListener('click',function(
     pl_generate();
 })
 
+document.getElementById('pl_hint_button').addEventListener('click' , function() {
+    document.getElementById('chemicalTable').classList.toggle('hidden');
+    display_pl_hint();
+})
+
 async function ai_turn() {
     view_ai_hand();
     document.getElementById('pl_exchange_button').classList.add('disabled');
     document.getElementById('pl_generate_button').classList.add('disabled');
+
+    if (!document.getElementById('chemicalTable').classList.contains('hidden')) {document.getElementById('chemicalTable').classList.toggle('hidden')};
     make_material = await ai_make_materials();
     if (ai_make_materials === false) {
+        console.log('exchange');
         let ai_exchange_material = await ai_exchange_materials();
         await select_ai_cards(ai_exchange_material);
         ai_exchange();
@@ -253,6 +261,26 @@ async function ai_make_materials() {
     return allMaterials[max_point_index];
 }
 
+async function display_pl_hint() {
+    const components = pl_hand.reduce((acc, element) => {
+        acc[element] = (acc[element] || 0) + 1;
+        return acc;
+    }, {});
+    const allMaterials = await loadMaterials();
+    const matchingMaterials = search_materials(components, allMaterials);
+    
+    const tableBody = document.getElementById('chemicalTable').getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = '';
+    
+    matchingMaterials.forEach(chemical => {
+        const row = tableBody.insertRow();
+        row.insertCell().textContent = chemical.name;
+        row.insertCell().textContent = chemical.formula;
+        row.insertCell().textContent = chemical.point;
+        row.insertCell().textContent = JSON.stringify(chemical.components); // コンポーネンツを文字列化
+    });
+}
+
 function obj_to_array(obj) {
     let result = [];
     for (const key in obj) {
@@ -306,17 +334,19 @@ async function select_ai_cards(need_cards) {
 }
 
 async function ai_exchange_materials() {
-    const elementCounts = {};
-    ai_hand.forEach(elem => elementCounts[elem] = (elementCounts[elem] || 0) + 1);
+    const count = ai_hand.reduce((acc, elem) => {
+        acc[elem] = (acc[elem] || 0) + 1;
+        return acc;
+    }, {});
+    let minElement = null;
     let minCount = Infinity;
-    let elementToExchange = null;
-    for (let elem in elementCounts) {
-        if (elementCounts[elem] < minCount) {
-            minCount = elementCounts[elem];
-            elementToExchange = el;
+    for (const [element, num] of Object.entries(count)) {
+        if (num < minCount) {
+            minElement = element;
+            minCount = num;
         }
     }
-    return elementToExchange;
+    return { [minElement]: minCount };
 }
 
 function win_check() {
