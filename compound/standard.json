@@ -740,7 +740,7 @@
             "formula": "He",
             "point": 3,
             "components": {
-                "He": 1,
+                "He": 1
             }
         },
         {
@@ -748,7 +748,7 @@
             "formula": "Ar",
             "point": 3,
             "components": {
-                "Ar": 1,
+                "Ar": 1
             }
         }
     ]
