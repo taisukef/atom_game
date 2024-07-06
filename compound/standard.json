@@ -734,6 +734,30 @@
                 "Be": 1,
                 "O": 1
             }
+        },
+        {
+            "name": "ヘリウム",
+            "formula": "He",
+            "point": 3,
+            "components": {
+                "He": 1,
+            }
+        },
+        {
+            "name": "アルゴン",
+            "formula": "Ar",
+            "point": 3,
+            "components": {
+                "Ar": 1,
+            }
+        },
+        {
+            "name": "ヘリウム",
+            "formula": "He",
+            "point": 3,
+            "components": {
+                "He": 1,
+            }
         }
     ]
 }
