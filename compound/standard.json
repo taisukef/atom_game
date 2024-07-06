@@ -750,14 +750,6 @@
             "components": {
                 "Ar": 1,
             }
-        },
-        {
-            "name": "ヘリウム",
-            "formula": "He",
-            "point": 3,
-            "components": {
-                "He": 1,
-            }
         }
     ]
 }
