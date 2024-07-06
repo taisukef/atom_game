@@ -35,26 +35,30 @@ document.getElementById('pl_hint_button').addEventListener('click' , function() 
 })
 
 async function ai_turn() {
-    view_ai_hand();
-    document.getElementById('pl_exchange_button').classList.add('disabled');
-    document.getElementById('pl_generate_button').classList.add('disabled');
+    if (turn == 'ai'){
+        view_ai_hand();
+        document.getElementById('pl_exchange_button').classList.add('disabled');
+        document.getElementById('pl_generate_button').classList.add('disabled');
 
-    if (!document.getElementById('chemicalTable').classList.contains('hidden')) {document.getElementById('chemicalTable').classList.toggle('hidden')};
-    make_material = await ai_make_materials();
-    if (ai_make_materials === false) {
-        console.log('exchange');
-        let ai_exchange_material = await ai_exchange_materials();
-        await select_ai_cards(ai_exchange_material);
-        ai_exchange();
+        if (!document.getElementById('chemicalTable').classList.contains('hidden')) {document.getElementById('chemicalTable').classList.toggle('hidden')};
+        make_material = await ai_make_materials();
+        if (ai_make_materials === false) {
+            console.log('exchange');
+            let ai_exchange_material = await ai_exchange_materials();
+            await select_ai_cards(ai_exchange_material);
+            ai_exchange();
+        }
+        await select_ai_cards(make_material.components);
+        ai_generate();
     }
-    await select_ai_cards(make_material.components);
-    ai_generate();
 }
 
 function pl_turn() {
-    view_pl_hand();
-    document.getElementById('pl_exchange_button').classList.remove('disabled');
-    document.getElementById('pl_generate_button').classList.remove('disabled');
+    if (turn == 'pl'){
+        view_pl_hand();
+        document.getElementById('pl_exchange_button').classList.remove('disabled');
+        document.getElementById('pl_generate_button').classList.remove('disabled');
+    }
 }
 
 function ai_exchange() {
@@ -71,7 +75,7 @@ function ai_exchange() {
         win_check();
         pl_turn();
     } else {
-        document.getElementById('ai_text').innerHTML = 'あぁ、AIか。え？AI？？選択して？バグだよ？これ「？」多すぎ。文長くなっちゃった☆'
+        document.getElementById('ai_text').innerHTML = 'カードを選択してください'
     }
 }
 
@@ -101,11 +105,12 @@ async function ai_generate() {
             document.getElementById('ai_point').innerHTML = `AIのポイント： ${ai_point}`;
             document.getElementById('ai_text').innerHTML = `${generate_material[0].name} ： ${generate_material[0].formula}`;
         } else {
-            document.getElementById('ai_text').innerHTML = '該当のb...え？な～ぜ な～ぜ？（古い？）';
+            document.getElementById('ai_text').innerHTML = '該当の物質がありません';
         }
         ai_exchange();
     } else {
-        document.getElementById('ai_text').innerHTML = 'カードを選択s...え？お前AI？？なんで...？今からバグるよ（バグの子）！';
+        document.getElementById('ai_text').innerHTML = 'カードを選択してください';
+        ai_exchange();
     }
 }
 
