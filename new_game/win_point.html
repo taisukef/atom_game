@@ -54,14 +54,11 @@
             <!-- JavaScriptで行が挿入される -->
         </tbody>
     </table>
-    <script>
-        function setWinPoint() {
-            const win_point = document.getElementById("winPointInput").value
-    </script>
-
     <script src="win_point.js"></script>
 
     <script>
+        function setWinPoint() {
+            const win_point = document.getElementById("winPointInput").value
         make_initial_hand();
         console.log(ai_hand,pl_hand)
         let turn = (Math.random() > 0.5) ? 'ai':'pl';
