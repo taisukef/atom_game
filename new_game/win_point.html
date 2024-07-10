@@ -22,10 +22,8 @@
     </style>
 </head>
 <body>
-    <form method="POST" action="＃">
-        <input type="number" min="5" max="1000" value = "250">
-        <input type="submit" value="決定">
-    </form>
+    <input id="win_point" type="number" min="5" max="1000" value = "250">
+    <button id='submit' onclick = change_win_point()></button>
     <div class="ai">
         <button id="ai_exchange">交換</button>
         <button id="ai_generate">生成</button>
@@ -63,6 +61,12 @@
     <script src="new_game.js"></script>
 
     <script>
+        function change_win_point() {
+            const win_point_change = document.getElementById('win_point');
+            win_point_cahnge.addEventListener('click', function() {
+                let win_point = win_point_change.value;
+            });
+        };
         make_initial_hand();
         console.log(ai_hand,pl_hand)
         let turn = (Math.random() > 0.5) ? 'ai':'pl';
