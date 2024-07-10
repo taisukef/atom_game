@@ -55,14 +55,13 @@
         </tbody>
     </table>
     <script>
-        document.getElementById('win_point').addEventListener('submit', const win_point = document.getElementById('win_point').value)
+        function setWinPoint() {
+            const win_point = document.getElementById("winPointInput").value
     </script>
 
     <script src="new_game.js"></script>
 
     <script>
-        function setWinPoint() {
-            const win_point = document.getElementById("winPointInput").value
         make_initial_hand();
         console.log(ai_hand,pl_hand)
         let turn = (Math.random() > 0.5) ? 'ai':'pl';
