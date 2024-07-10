@@ -750,6 +750,14 @@
             "components": {
                 "Ar": 1
             }
+        },
+        {
+            "name": "ネオン",
+            "formula": "Ne",
+            "point": 3,
+            "components": {
+                "Ne": 1
+            }
         }
     ]
 }
