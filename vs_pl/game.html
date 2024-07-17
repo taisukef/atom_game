@@ -36,7 +36,7 @@
     </style>
 </head>
 <body>
-    <p>commit change!</p>
+    <p>commit changed!!!</p>
     <script src="game.js"></script>
 
     <button id="start">試合を開始</button>
@@ -58,6 +58,8 @@
     </div>
 
     <script>
+        document.getElementById('p1').style.visibility = 'hidden';
+        document.getElementById('p2').style.visibility = 'hidden';
         document.getElementById('start').addEventListener('click', function() {
             document.getElementById('start').style.display = 'none';
             
