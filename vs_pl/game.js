@@ -60,9 +60,6 @@ async function p2_generate() {
         p2_exchange();
         p2_selected_cards = [];
         p2_selected_place = [0,0,0,0,0,0,0,0];
-        if (win_check() == true) {
-            turn = 'end';
-        };
     } else {
         document.getElementById('p2_text').innerHTML = 'カードが選択されていません';
     }
@@ -233,6 +230,7 @@ function reset_size(p1_or_p2) {
 
 function win_check() {
     if (p1_point >= 250 || p2_point >= 250) {
+        turn = 'end';
         return p1_point >= 250 ? 'p1':'p2';
     } else {
         return false;
