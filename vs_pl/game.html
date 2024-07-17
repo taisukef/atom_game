@@ -57,13 +57,8 @@
     </div>
 
     <script>
-        document.getElementById('p1').style.visibility = 'hidden';
-        document.getElementById('p2').style.visibility = 'hidden';
         document.getElementById('start').addEventListener('click', function() {
             document.getElementById('start').style.display = 'none';
-
-            document.getElementById('p1').style.visibility = 'visible';
-            document.getElementById('p2').style.visibility = 'visible';
             
             document.getElementById('p1_generate').addEventListener('click', function() {p1_generate();});
             document.getElementById('p1_exchange').addEventListener('click', function() {p1_exchange();});
