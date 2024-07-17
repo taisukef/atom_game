@@ -40,6 +40,7 @@ async function p1_generate() {
         p1_exchange();
         p1_selected_cards = [];
         p1_selected_place = [0,0,0,0,0,0,0,0];
+        win_check();
     } else {
         document.getElementById('p1_text').innerHTML = 'カードが選択されていません';
     }
@@ -59,6 +60,9 @@ async function p2_generate() {
         p2_exchange();
         p2_selected_cards = [];
         p2_selected_place = [0,0,0,0,0,0,0,0];
+        if (win_check() == true) {
+            turn = 'end';
+        };
     } else {
         document.getElementById('p2_text').innerHTML = 'カードが選択されていません';
     }
@@ -106,24 +110,26 @@ function p1_view_hand() {
         img.style.border = '1px solid #000';
         img.className = 'p1';
         img.place = index;
-        img.addEventListener('click', function() {        
-            if (!this.classList.contains('selected')) {
-                this.classList.add('selected');
-                p1_selected_cards.push(this.alt);
-                p1_selected_place[index] = 1;
-                this.style.transform = 'scale(1.20)';
-                this.style.border = '1px solid #F00';
-            } else {
-                this.classList.remove('selected');
-                const cardIndex = p1_selected_cards.indexOf(this.alt);
-                if (cardIndex !== -1) {
-                    p1_selected_cards.splice(cardIndex, 1);
-                    p1_selected_place[index] = 0;
+        img.addEventListener('click', function() {
+            if (turn != 'end'){
+                if (!this.classList.contains('selected')) {
+                    this.classList.add('selected');
+                    p1_selected_cards.push(this.alt);
+                    p1_selected_place[index] = 1;
+                    this.style.transform = 'scale(1.20)';
+                    this.style.border = '1px solid #F00';
+                } else {
+                    this.classList.remove('selected');
+                    const cardIndex = p1_selected_cards.indexOf(this.alt);
+                    if (cardIndex !== -1) {
+                        p1_selected_cards.splice(cardIndex, 1);
+                        p1_selected_place[index] = 0;
+                    }
+                    this.style.transform = 'scale(1.00)';
+                    this.style.border = '1px solid #000';
                 }
-                this.style.transform = 'scale(1.00)';
-                this.style.border = '1px solid #000';
+                console.log(p1_selected_cards)
             }
-            console.log(p1_selected_cards)
             
         });
         Hand_Div.appendChild(img);
@@ -143,23 +149,25 @@ function p2_view_hand() {
         img.className = 'p2';
         img.place = index;
         img.addEventListener('click', function() {
-            if (!this.classList.contains('selected')) {
-                this.classList.add('selected');
-                p2_selected_cards.push(this.alt);
-                p2_selected_place[index] = 1;
-                this.style.transform = 'scale(1.20)';
-                this.style.border = '1px solid #F00';
-            } else {
-                this.classList.remove('selected');
-                const cardIndex = p2_selected_cards.indexOf(this.alt);
-                if (cardIndex !== -1) {
-                    p2_selected_cards.splice(cardIndex, 1);
-                    p2_selected_place[index] = 0;
+            if (turn != 'end') {
+                if (!this.classList.contains('selected')) {
+                    this.classList.add('selected');
+                    p2_selected_cards.push(this.alt);
+                    p2_selected_place[index] = 1;
+                    this.style.transform = 'scale(1.20)';
+                    this.style.border = '1px solid #F00';
+                } else {
+                    this.classList.remove('selected');
+                    const cardIndex = p2_selected_cards.indexOf(this.alt);
+                    if (cardIndex !== -1) {
+                        p2_selected_cards.splice(cardIndex, 1);
+                        p2_selected_place[index] = 0;
+                    }
+                    this.style.transform = 'scale(1.00)';
+                    this.style.border = '1px solid #000';
                 }
-                this.style.transform = 'scale(1.00)';
-                this.style.border = '1px solid #000';
+                console.log(p2_selected_cards)
             }
-            console.log(p2_selected_cards)
         });
         Hand_Div.appendChild(img);
     });
