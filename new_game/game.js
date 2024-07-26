@@ -13,10 +13,12 @@ let ai_point = 0;
 
 let card_num = 8;
 
+let pl_data = [];
+let ai_data = [];
+
 const elementToNumber = {"H": 1, "He": 2, "Li": 3, "Be": 4, "B": 5, "C": 6, "N": 7, "O": 8, "F": 9, "Ne": 10,"Na": 11, "Mg": 12, "Al": 13, "Si": 14, "P": 10, "S": 16, "Cl": 17, "Ar": 18, "K": 19, "Ca": 20,"Fe": 26, "Cu": 29, "Zn": 30, "I": 53};
 const elements = [...Array(30).fill('H'), ...Array(25).fill('O'), ...Array(20).fill('C'),'He', 'Li', 'Be', 'B', 'N', 'F', 'Ne', 'Na', 'Mg', 'Al', 'Si', 'P', 'S', 'Cl', 'Ar', 'K', 'Ca','Fe', 'Cu', 'Zn', 'I'];
 const element = ['H','O','C','He', 'Li', 'Be', 'B', 'N', 'F', 'Ne', 'Na', 'Mg', 'Al', 'Si', 'P', 'S', 'Cl', 'Ar', 'K', 'Ca','Fe', 'Cu', 'Zn', 'I']
-
 
 const ai_hand_div = document.getElementById('ai_hand');
 ai_hand_div.classList.add('disabled');
@@ -35,23 +37,49 @@ document.getElementById('pl_hint_button').addEventListener('click' , function() 
 })
 
 async function ai_turn() {
-    if (turn == 'ai'){
+    if (turn == 'ai') {
         view_ai_hand();
         document.getElementById('pl_exchange_button').classList.add('disabled');
         document.getElementById('pl_generate_button').classList.add('disabled');
 
-        if (!document.getElementById('chemicalTable').classList.contains('hidden')) {document.getElementById('chemicalTable').classList.toggle('hidden')};
+        if (!document.getElementById('chemicalTable').classList.contains('hidden')) {
+            document.getElementById('chemicalTable').classList.toggle('hidden');
+        }
         make_material = await ai_make_materials();
-        if (ai_make_materials === false) {
+        console.log(make_material);
+        if (make_material == null) {
             console.log('exchange');
             let ai_exchange_material = await ai_exchange_materials();
             await select_ai_cards(ai_exchange_material);
             ai_exchange();
+        } else {
+            await select_ai_cards(make_material.components);
+            ai_generate();
         }
-        await select_ai_cards(make_material.components);
-        ai_generate();
     }
 }
+
+async function ai_exchange_materials() {
+    const count = ai_hand.reduce((acc, elem) => {
+        acc[elem] = (acc[elem] || 0) + 1;
+        return acc;
+    }, {});
+
+    let minElement = null;
+    let minCount = Infinity;
+    for (const [element, num] of Object.entries(count)) {
+        if (num < minCount) {
+            minElement = element;
+            minCount = num;
+        }
+    }
+
+    let exchangeCards = {};
+    exchangeCards[minElement] = minCount;
+
+    return exchangeCards;
+}
+
 
 function pl_turn() {
     if (turn == 'pl'){
@@ -63,6 +91,11 @@ function pl_turn() {
 
 function ai_exchange() {
     if (ai_selected_cards.length >= 1) {
+        ai_data.push({
+            hand: [ai_hand.slice()], // 現在の手札のコピーを保存
+            action: 'exchange',
+            selected: array_to_obj(ai_selected_cards) // 選択されたカードをオブジェクトとして保存
+        });
         ai_selected_place.forEach((elem,index) => {
             if (elem == 1) {
                 ai_hand[index] = get_random_card();
@@ -81,6 +114,11 @@ function ai_exchange() {
 
 function pl_exchange() {
     if (pl_selected_cards.length >= 1) {
+        pl_data.push({
+            hand: [pl_hand.slice()], // 現在の手札のコピーを保存
+            action: 'exchange',
+            selected: array_to_obj(pl_selected_cards) // 選択されたカードをオブジェクトとして保存
+        });
         pl_selected_place.forEach((elem,index) => {
             if (elem == 1) {
                 pl_hand[index] = get_random_card();
@@ -97,6 +135,7 @@ function pl_exchange() {
     }
 }
 
+
 async function ai_generate() {
     if (ai_selected_cards.length >= 1) {
         let generate_material = await search_material(array_to_obj(ai_selected_cards));
@@ -104,10 +143,16 @@ async function ai_generate() {
             ai_point += generate_material[0].point;
             document.getElementById('ai_point').innerHTML = `AIのポイント： ${ai_point}`;
             document.getElementById('ai_text').innerHTML = `${generate_material[0].name} ： ${generate_material[0].formula}`;
+            ai_data.push({
+                hand: [ai_hand.slice()], // 現在の手札のコピーを保存
+                action: 'generate',
+                selected: array_to_obj(ai_selected_cards) // 修正: 選択されたカードをオブジェクトとして保存
+            });
+            ai_exchange();
         } else {
             document.getElementById('ai_text').innerHTML = '該当の物質がありません';
+            ai_exchange();
         }
-        ai_exchange();
     } else {
         document.getElementById('ai_text').innerHTML = 'カードを選択してください';
         ai_exchange();
@@ -121,14 +166,24 @@ async function pl_generate() {
             pl_point += generate_material[0].point;
             document.getElementById('pl_point').innerHTML = `プレイヤーのポイント： ${pl_point}`;
             document.getElementById('pl_text').innerHTML = `${generate_material[0].name} ： ${generate_material[0].formula}`;
+            pl_data.push({
+                hand: [pl_hand.slice()], // 現在の手札のコピーを保存
+                action: 'generate',
+                selected: array_to_obj(pl_selected_cards) // 修正: 選択されたカードをオブジェクトとして保存
+            });
+            pl_exchange();
         } else {
             document.getElementById('pl_text').innerHTML = '該当の物質がありません';
+            turn = 'ai';
+            view_pl_hand();
+            win_check();
+            ai_turn();
         }
-        pl_exchange();
     } else {
         document.getElementById('pl_text').innerHTML = 'カードを選択してください';
     }
 }
+
 
 function view_ai_hand() {
     const Hand_div = document.getElementById('ai_hand');
@@ -253,18 +308,24 @@ async function ai_make_materials() {
     }, {});
     const allMaterials = await loadMaterials();
     const matchingMaterials = search_materials(components, allMaterials);
-    if (matchingMaterials == null) {return false}
-    const indexes = matchingMaterials.map(material => allMaterials.indexOf(material));
+
+    // 生成できる物質がない場合にnullを返す
+    if (!matchingMaterials.length) {
+        return null;
+    }
+
     var max_point = 0;
     var max_point_index = 0;
-    indexes.forEach((index) => {
-        if (allMaterials[index].point > max_point) {
-            max_point_index = index;
-            max_point = allMaterials[index].point;
+    matchingMaterials.forEach((material) => {
+        if (material.point > max_point) {
+            max_point_index = allMaterials.indexOf(material);
+            max_point = material.point;
         }
-    })
+    });
+
     return allMaterials[max_point_index];
 }
+
 
 async function display_pl_hint() {
     const components = pl_hand.reduce((acc, element) => {
@@ -357,8 +418,9 @@ async function ai_exchange_materials() {
 function win_check() {
     if (pl_point >= 250 || ai_point >= 250) {
         turn = 'end';
-        alert(pl_point >= 250 ? 'プレイヤーの勝利':'AIの勝利');
+        const winner = pl_point >= 250 ? 'プレイヤー' : 'AI';
+        return winner
     } else {
-        return false
+        return false;
     };
 }
