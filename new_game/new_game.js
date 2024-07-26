@@ -174,6 +174,8 @@ async function pl_generate() {
             pl_exchange();
         } else {
             document.getElementById('pl_text').innerHTML = '該当の物質がありません';
+            pl_selected_cards = []
+            pl_selected_place = [0,0,0,0,0,0,0,0]
             turn = 'ai';
             view_pl_hand();
             win_check();
