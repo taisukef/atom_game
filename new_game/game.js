@@ -403,7 +403,6 @@ function win_check() {
     if (pl_point >= 250 || ai_point >= 250) {
         turn = 'end';
         const winner = pl_point >= 250 ? 'プレイヤー' : 'AI';
-        return winner
     } else {
         return false;
     };
