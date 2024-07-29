@@ -152,13 +152,8 @@ async function pl_generate() {
         } else {
             document.getElementById('pl_text').innerHTML = '該当の物質がありません';
             turn = 'ai';
-            pl_selected_place.forEach((elem,index) => {
-                if (elem == 1) {
-                    pl_hand[index] = get_random_card();
-                    const pl_card = document.getElementsByClassName('pl_card')[index];
-                    pl_card.click();
-                };
-            });
+            pl_selected_cards = [];
+            pl_selected_place = [0,0,0,0,0,0,0,0];
             view_pl_hand();
             win_check();
             ai_turn();
