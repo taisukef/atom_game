@@ -13,9 +13,6 @@ let ai_point = 0;
 
 let card_num = 8;
 
-let pl_data = [];
-let ai_data = [];
-
 const elementToNumber = {"H": 1, "He": 2, "Li": 3, "Be": 4, "B": 5, "C": 6, "N": 7, "O": 8, "F": 9, "Ne": 10,"Na": 11, "Mg": 12, "Al": 13, "Si": 14, "P": 10, "S": 16, "Cl": 17, "Ar": 18, "K": 19, "Ca": 20,"Fe": 26, "Cu": 29, "Zn": 30, "I": 53};
 const elements = [...Array(30).fill('H'), ...Array(25).fill('O'), ...Array(20).fill('C'),'He', 'Li', 'Be', 'B', 'N', 'F', 'Ne', 'Na', 'Mg', 'Al', 'Si', 'P', 'S', 'Cl', 'Ar', 'K', 'Ca','Fe', 'Cu', 'Zn', 'I'];
 const element = ['H','O','C','He', 'Li', 'Be', 'B', 'N', 'F', 'Ne', 'Na', 'Mg', 'Al', 'Si', 'P', 'S', 'Cl', 'Ar', 'K', 'Ca','Fe', 'Cu', 'Zn', 'I']
@@ -91,11 +88,6 @@ function pl_turn() {
 
 function ai_exchange() {
     if (ai_selected_cards.length >= 1) {
-        ai_data.push({
-            hand: [ai_hand.slice()], // 現在の手札のコピーを保存
-            action: 'exchange',
-            selected: array_to_obj(ai_selected_cards) // 選択されたカードをオブジェクトとして保存
-        });
         ai_selected_place.forEach((elem,index) => {
             if (elem == 1) {
                 ai_hand[index] = get_random_card();
@@ -114,11 +106,6 @@ function ai_exchange() {
 
 function pl_exchange() {
     if (pl_selected_cards.length >= 1) {
-        pl_data.push({
-            hand: [pl_hand.slice()], // 現在の手札のコピーを保存
-            action: 'exchange',
-            selected: array_to_obj(pl_selected_cards) // 選択されたカードをオブジェクトとして保存
-        });
         pl_selected_place.forEach((elem,index) => {
             if (elem == 1) {
                 pl_hand[index] = get_random_card();
@@ -143,11 +130,6 @@ async function ai_generate() {
             ai_point += generate_material[0].point;
             document.getElementById('ai_point').innerHTML = `AIのポイント： ${ai_point}`;
             document.getElementById('ai_text').innerHTML = `${generate_material[0].name} ： ${generate_material[0].formula}`;
-            ai_data.push({
-                hand: [ai_hand.slice()], // 現在の手札のコピーを保存
-                action: 'generate',
-                selected: array_to_obj(ai_selected_cards) // 修正: 選択されたカードをオブジェクトとして保存
-            });
             ai_exchange();
         } else {
             document.getElementById('ai_text').innerHTML = '該当の物質がありません';
@@ -166,15 +148,17 @@ async function pl_generate() {
             pl_point += generate_material[0].point;
             document.getElementById('pl_point').innerHTML = `プレイヤーのポイント： ${pl_point}`;
             document.getElementById('pl_text').innerHTML = `${generate_material[0].name} ： ${generate_material[0].formula}`;
-            pl_data.push({
-                hand: [pl_hand.slice()], // 現在の手札のコピーを保存
-                action: 'generate',
-                selected: array_to_obj(pl_selected_cards) // 修正: 選択されたカードをオブジェクトとして保存
-            });
             pl_exchange();
         } else {
             document.getElementById('pl_text').innerHTML = '該当の物質がありません';
             turn = 'ai';
+            pl_selected_place.forEach((elem,index) => {
+                if (elem == 1) {
+                    pl_hand[index] = get_random_card();
+                    const pl_card = document.getElementsByClassName('pl_card')[index];
+                    pl_card.click();
+                };
+            });
             view_pl_hand();
             win_check();
             ai_turn();
