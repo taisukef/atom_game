@@ -14,7 +14,7 @@
 
         async function loadModel() {
             try {
-                const modelUrl = 'https://kurorosuke.github.io/atom_game/save/model.tflite';
+                const modelUrl = 'https://kurorosuke.github.io/atom_game/save/model.tflite';  // TensorFlow Lite モデルのURL
                 tfliteModel = await tflite.loadTFLiteModel(modelUrl);
                 console.log('Model loaded.');
             } catch (error) {
@@ -36,6 +36,7 @@
                     return hand.map(elem => elements[elem] || 0);
                 }
 
+                // 例の手札データ
                 const inputHand = ["C", "H", "O", "N", "S", "He", "Li", "Be"];
                 const inputData = convertElement(inputHand);
                 const inputTensor = tf.tensor2d([inputData], [1, inputData.length], 'float32');
