@@ -5,18 +5,19 @@
     <title>Element Action Prediction</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite@latest"></script>
-
 </head>
 <body>
     <h1>Element Action Prediction</h1>
     <button onclick="runPrediction()">予測を実行</button>
     <script>
         let tfliteModel;
+        let modelLoaded = false;
 
         async function loadModel() {
             const modelUrl = 'https://kurorosuke.github.io/atom_game/save/model.tflite';  // TensorFlow Lite モデルのURL
             try {
                 tfliteModel = await tflite.loadTFLiteModel(modelUrl);
+                modelLoaded = true;
                 console.log('Model loaded.');
             } catch (error) {
                 console.error('Failed to load model:', error);
@@ -26,7 +27,7 @@
         loadModel();
 
         async function runPrediction() {
-            if (!tfliteModel) {
+            if (!modelLoaded) {
                 console.error('Model not loaded yet.');
                 return;
             }
