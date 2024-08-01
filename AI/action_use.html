@@ -13,7 +13,7 @@
         let tfliteModel;
 
         async function loadModel() {
-            const modelUrl = 'https://kurorosuke.github.io/Atom_game/save/model.tflite';  // TensorFlow Lite モデルのパスを指定
+            const modelUrl = 'https://kurorosuke.github.io/atom_game/save/model.tflite';  // TensorFlow Lite モデルのパスを指定
             tfliteModel = await tflite.loadTFLiteModel(modelUrl);
             console.log('Model loaded.');
         }
