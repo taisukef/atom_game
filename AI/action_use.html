@@ -13,35 +13,41 @@
         let tfliteModel;
 
         async function loadModel() {
-            const modelUrl = 'https://kurorosuke.github.io/atom_game/save/model.tflite';  // TensorFlow Lite モデルのパスを指定
-            tfliteModel = await tflite.loadTFLiteModel(modelUrl);
-            console.log('Model loaded.');
+            try {
+                const modelUrl = 'https://kurorosuke.github.io/atom_game/save/model.tflite';
+                tfliteModel = await tflite.loadTFLiteModel(modelUrl);
+                console.log('Model loaded.');
+            } catch (error) {
+                console.error('Failed to load model:', error);
+            }
         }
 
         loadModel();
 
         async function runPrediction() {
-            const elements = {
-                "H": 1, "He": 2, "Li": 3, "Be": 4, "B": 5, "C": 6, "N": 7, "O": 8, "F": 9, "Ne": 10,
-                "Na": 11, "Mg": 12, "Al": 13, "Si": 14, "P": 15, "S": 16, "Cl": 17, "Ar": 18, "K": 19, "Ca": 20,
-                "Fe": 26, "Cu": 29, "Zn": 30, "I": 53
-            };
+            try {
+                const elements = {
+                    "H": 1, "He": 2, "Li": 3, "Be": 4, "B": 5, "C": 6, "N": 7, "O": 8, "F": 9, "Ne": 10,
+                    "Na": 11, "Mg": 12, "Al": 13, "Si": 14, "P": 15, "S": 16, "Cl": 17, "Ar": 18, "K": 19, "Ca": 20,
+                    "Fe": 26, "Cu": 29, "Zn": 30, "I": 53
+                };
 
-            function convertElement(hand) {
-                return hand.map(elem => elements[elem] || 0);
+                function convertElement(hand) {
+                    return hand.map(elem => elements[elem] || 0);
+                }
+
+                const inputHand = ["C", "H", "O", "N", "S", "He", "Li", "Be"];
+                const inputData = convertElement(inputHand);
+                const inputTensor = tf.tensor2d([inputData], [1, inputData.length], 'float32');
+
+                const prediction = await tfliteModel.predict(inputTensor);
+                const predictionValue = prediction.dataSync();
+
+                const action = predictionValue[0] <= 0.5 ? 'generate' : 'exchange';
+                console.log('Action:', action);
+            } catch (error) {
+                console.error('Prediction error:', error);
             }
-
-            // 例の手札データ
-            const inputHand = ["C", "H", "O", "N", "S", "He", "Li", "Be"];
-            const inputData = convertElement(inputHand);
-            const inputTensor = tf.tensor2d([inputData], [1, inputData.length], 'float32');
-
-            const prediction = await tfliteModel.predict(inputTensor);
-            const predictionValue = prediction.dataSync();
-
-            // 予測結果の解釈
-            const action = predictionValue[0] <= 0.5 ? 'generate' : 'exchange';
-            console.log('Action:', action);
         }
     </script>
 </body>
