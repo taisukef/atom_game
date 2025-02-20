@@ -345,9 +345,12 @@ async function display_pl_hint() {
         row.insertCell().textContent = chemical.name;
         row.insertCell().textContent = chemical.formula;
         row.insertCell().textContent = chemical.point;
-        row.insertCell().textContent = JSON.stringify(chemical.components); // コンポーネンツを文字列化
+
+        const componentsArray = Object.entries(chemical.components).map(([key, value]) => `${key}:${value}`);
+        row.insertCell().textContent = componentsArray.join(', ');
     });
 }
+
 
 function obj_to_array(obj) {
     let result = [];
